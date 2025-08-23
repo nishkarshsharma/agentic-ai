@@ -9,7 +9,6 @@ def send_email(to: str, subject: str, message_text: str, sender: str = "me"):
         message_raw = create_message_body(
             to=to, subject=subject, message_text=message_text, sender=sender
         )
-        # message_body = {'message': message_raw}
         send_message = (service.users().messages().send(userId="me", body=message_raw).execute())
         return send_message
     except Exception as error:
@@ -23,7 +22,6 @@ send_email_agent = Agent(
         Executes a sequence of email writing and sending email.
         Returns: essage object, including message id
     """,
-    # For subject and body use the output from the email_writer_agent from the output key 'subject_and_body'
     instruction= """You are a specialized agent designed to create and send email from the information provided by the user. 
     You have access to following Tools:
     - send_email

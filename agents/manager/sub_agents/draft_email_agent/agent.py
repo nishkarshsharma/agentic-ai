@@ -22,8 +22,8 @@ draft_email_agent = Agent(
     name = "draft_email_agent",
     model="gemini-2.0-flash",
     global_instruction= """You are a helpful virtual assistant for a company. Always respond politely.""",
-    description=    """
-    This agent create and insert a draft email. Returns: Draft object, including draft id and message meta data.
+    description= """This agent create and insert a draft email. 
+    Returns: Draft object, including draft id and message meta data.
     """,
     instruction= """You are a specialized agent designed to draft email from the information provided by the user. 
     You have access to following Tools:
