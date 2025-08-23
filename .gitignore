@@ -210,3 +210,4 @@ __marimo__/
 # Never commit sensitive files like API keys or credentials.
 **/credentials.json
 **/token.json
+gcp_authenticator copy.py

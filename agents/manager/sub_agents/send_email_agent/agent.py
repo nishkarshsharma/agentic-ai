@@ -1,33 +1,30 @@
 from google.adk import Agent
 from ...auth import gmail_auth
-import base64
-from email.mime.text import MIMEText
 from ..utils import create_message_body
 
-def create_draft(to: str, subject: str, message_text: str, sender: str = "me"):
-    """This tool is used to create and insert a draft email"""
+def send_email(to: str, subject: str, message_text: str, sender: str = "me"):
+    """This tool is used to create and send email"""
     try:
-        
         service = gmail_auth.main()
         message_raw = create_message_body(
             to=to, subject=subject, message_text=message_text, sender=sender
         )
-        message_body = {'message': message_raw}
-        draft = service.users().drafts().create(userId=sender, body=message_body).execute()
-        return draft
+        # message_body = {'message': message_raw}
+        send_message = (service.users().messages().send(userId="me", body=message_raw).execute())
+        return send_message
     except Exception as error:
-        raise Exception (f'An error occurred: {error}')
+        raise Exception (f'An error occurred while sending the email: {error}')
 
-draft_email_agent = Agent(
-    name = "draft_email_agent",
+send_email_agent = Agent(
+    name = "send_email_agent",
     global_instruction= """You are a helpful virtual assistant for a company. Always respond politely.""",
     description=    """
-    This agent create and insert a draft email. Returns: Draft object, including draft id and message meta data.
+    This agent create and send an email. 
+    Returns: essage object, including message id
     """,
-    instruction= """You are a specialized agent designed to draft email from the information provided by the user. 
+    instruction= """You are a specialized agent designed to create and send email from the information provided by the user. 
     You have access to following Tools:
-    - create_draft
-
+    - send_email
     From the input provided by the user extract the following information and use it 
     as the parameter for tool
     - sender: The sender'-s email address.
@@ -38,5 +35,5 @@ draft_email_agent = Agent(
     Ensure that you handle any potential errors gracefully and report the information back to the main agent.
     """,
     # model=model_id,
-    tools=[create_draft]
+    tools=[send_email]
     )
