@@ -17,11 +17,13 @@ def send_email(to: str, subject: str, message_text: str, sender: str = "me"):
 
 send_email_agent = Agent(
     name = "send_email_agent",
+    model="gemini-2.0-flash",
     global_instruction= """You are a helpful virtual assistant for a company. Always respond politely.""",
-    description=    """
-    This agent create and send an email. 
-    Returns: essage object, including message id
+    description="""This agent create and send an email. 
+        Executes a sequence of email writing and sending email.
+        Returns: essage object, including message id
     """,
+    # For subject and body use the output from the email_writer_agent from the output key 'subject_and_body'
     instruction= """You are a specialized agent designed to create and send email from the information provided by the user. 
     You have access to following Tools:
     - send_email
@@ -34,6 +36,5 @@ send_email_agent = Agent(
     
     Ensure that you handle any potential errors gracefully and report the information back to the main agent.
     """,
-    # model=model_id,
     tools=[send_email]
     )

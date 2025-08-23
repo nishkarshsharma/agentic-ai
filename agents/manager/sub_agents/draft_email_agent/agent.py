@@ -20,6 +20,7 @@ def create_draft(to: str, subject: str, message_text: str, sender: str = "me"):
 
 draft_email_agent = Agent(
     name = "draft_email_agent",
+    model="gemini-2.0-flash",
     global_instruction= """You are a helpful virtual assistant for a company. Always respond politely.""",
     description=    """
     This agent create and insert a draft email. Returns: Draft object, including draft id and message meta data.
@@ -37,6 +38,5 @@ draft_email_agent = Agent(
     
     Ensure that you handle any potential errors gracefully and report the information back to the main agent.
     """,
-    # model=model_id,
     tools=[create_draft]
     )
